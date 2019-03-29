@@ -1,0 +1,9 @@
+import csv
+SATZ =[]
+SATA = []
+PASS_UTC = []
+
+with open('hein_stuff.csv') as csvfile:
+    reader = csv.reader(csvfile, quoting=csv.QUOTE_NONNUMERIC) 
+    for row in reader:
+        SATZ.append(row)        
