@@ -1,0 +1,60 @@
+import csv
+# name_info is what will hold the data
+# SATZ,SATA,PASS_UTC are made to hold their positions on where to be found
+SATZ = []
+SATZ_info = []
+SATA = []
+SATA_info = []
+PASS_UTC = []
+PASS_UTC_info = []
+
+listrow = [] # holds string array of col needed to find
+listrowFind = [] # holds string array of col of info needed to find
+
+satz = "SATZ";  
+sata = "SATA";
+pass_utc = "PASS_UTC";
+
+import csv
+
+# finds col2find (key word) within the array(col2match) in this instance
+# we are tring to find the key words SATZ,SATA,PASS_UTC
+def strMatching(col2find,col2match,place2find):
+	strMatch = True
+	while strMatch is True:
+		for idx, word in enumerate(col2find):
+			if word == col2match:
+				place2find.append(idx) #stores colomn place that it found the key word
+				strMatch = False
+
+# finds info under key word and adds to the list to hold all the information pertaining to key word
+def findInfoUnderCol(col2find,place2find,infoArr):
+	notfound = True
+	while notfound is True:
+		for idx, info in enumerate(col2find):
+			if idx == place2find:
+				infoArr.append(info) #stores colomn place that it found the key word
+				notfound = False
+
+
+with open('hein_stuff.csv') as csv_file:
+    csv_reader = csv.reader(csv_file, delimiter=',')
+    line_count = 0
+    for row in csv_reader:
+        if line_count == 7:
+        	stringRow = ", ".join(row);
+        	listrow = stringRow.split(', ')
+        	strMatching(listrow,satz,SATZ)
+        	strMatching(listrow,sata,SATA)
+        	strMatching(listrow,pass_utc,PASS_UTC)
+        	line_count += 1
+        if line_count > 7:
+        	stringRow = ", ".join(row);
+        	listrowFind = stringRow.split(', ')
+        	findInfoUnderCol(listrowFind,SATZ[0],SATZ_info)
+        	findInfoUnderCol(listrowFind,SATA[0],SATA_info)
+        	findInfoUnderCol(listrowFind,PASS_UTC[0],PASS_UTC_info)
+        	line_count += 1
+        else:
+       		line_count += 1
+    print(SATZ_info,SATA_info,PASS_UTC_info)
